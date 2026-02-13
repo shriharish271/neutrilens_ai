@@ -6,14 +6,14 @@ import Dashboard from './components/Dashboard';
 import Scanner from './components/Scanner';
 import MealPlanner from './components/MealPlanner';
 import ChatBot from './components/ChatBot';
-import Auth from './components/Auth';
 import Profile from './components/Profile';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<AppTab>(AppTab.DASHBOARD);
-  const [user, setUser] = useState<AuthUser | null>(() => {
+  // Default user session to bypass login screen
+  const [user, setUser] = useState<AuthUser>(() => {
     const saved = localStorage.getItem('nutrilens_session');
-    return saved ? JSON.parse(saved) : null;
+    return saved ? JSON.parse(saved) : { email: 'guest@nutrilens.ai', name: 'Alex' };
   });
 
   const [profile, setProfile] = useState<UserProfile>(() => {
@@ -112,11 +112,6 @@ const App: React.FC = () => {
   useEffect(() => {
     if (user) {
       localStorage.setItem('nutrilens_session', JSON.stringify(user));
-      if (profile.name === 'Alex' || profile.name === '') {
-        setProfile(prev => ({ ...prev, name: user.name }));
-      }
-    } else {
-      localStorage.removeItem('nutrilens_session');
     }
   }, [user]);
 
@@ -141,19 +136,14 @@ const App: React.FC = () => {
     setProfile(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleLogout = () => {
-    if (confirm("Are you sure you want to log out?")) {
-      setUser(null);
-      localStorage.removeItem('nutrilens_session');
+  const handleReset = () => {
+    if (confirm("Are you sure you want to reset all data?")) {
       localStorage.removeItem('nutrilens_profile');
       localStorage.removeItem('nutrilens_daily_stats');
+      localStorage.removeItem('nutrilens_session');
       window.location.reload();
     }
   };
-
-  if (!user) {
-    return <Auth onAuthSuccess={setUser} />;
-  }
 
   return (
     <div className="min-h-screen pb-20 max-w-md mx-auto relative bg-slate-50 dark:bg-slate-950 transition-colors duration-300 overflow-x-hidden">
@@ -231,7 +221,7 @@ const App: React.FC = () => {
           profile={profile} 
           user={user} 
           onUpdateProfile={updateProfileField} 
-          onLogout={handleLogout} 
+          onLogout={handleReset} 
         />
       )}
 

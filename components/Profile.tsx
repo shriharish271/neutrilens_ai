@@ -83,9 +83,10 @@ const Profile: React.FC<ProfileProps> = ({ profile, user, onUpdateProfile, onLog
         </div>
         <button 
           onClick={onLogout}
+          title="Reset All Data"
           className="w-12 h-12 flex items-center justify-center rounded-2xl bg-rose-50 dark:bg-rose-900/20 text-rose-500 active:scale-90 transition-all border border-rose-100/50 dark:border-rose-900/30"
         >
-          <i className="fa-solid fa-right-from-bracket"></i>
+          <i className="fa-solid fa-trash-can"></i>
         </button>
       </div>
 
@@ -97,9 +98,6 @@ const Profile: React.FC<ProfileProps> = ({ profile, user, onUpdateProfile, onLog
             <div className="w-28 h-28 rounded-[2.5rem] bg-emerald-500 text-white flex items-center justify-center text-5xl font-black shadow-2xl shadow-emerald-500/20 transform -rotate-3 border-4 border-white dark:border-slate-800">
               {profile.name.charAt(0).toUpperCase()}
             </div>
-            <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-white dark:bg-slate-800 rounded-2xl shadow-lg flex items-center justify-center text-emerald-500 border border-slate-100 dark:border-slate-700">
-              <i className="fa-solid fa-camera text-sm"></i>
-            </div>
           </div>
           <div className="text-center w-full">
             <input 
@@ -107,7 +105,7 @@ const Profile: React.FC<ProfileProps> = ({ profile, user, onUpdateProfile, onLog
               onChange={(e) => onUpdateProfile('name', e.target.value)}
               className="text-2xl font-black text-center bg-transparent border-b-2 border-transparent focus:border-emerald-500 outline-none w-full px-4 py-1 transition-all text-slate-900 dark:text-white"
             />
-            <p className="text-slate-400 dark:text-slate-500 text-xs font-bold mt-2 uppercase tracking-widest">{user.email}</p>
+            <p className="text-slate-400 dark:text-slate-500 text-xs font-bold mt-2 uppercase tracking-widest">Active Profile</p>
           </div>
         </div>
       </div>
